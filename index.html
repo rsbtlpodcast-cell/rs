@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="id">
 <head>
 <meta charset="UTF-8">
@@ -8,942 +7,431 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
-:root{
---primary:#007c91;
---secondary:#00bfa5;
+:root {
+  --primary: #007c91;
+  --secondary: #00bfa5;
 }
 
-*{
-box-sizing:border-box;
+* {
+  box-sizing: border-box;
 }
 
-body{
-margin:0;
-font-family:Poppins,sans-serif;
-background:#f5fbfb;
-overflow:hidden;
+body {
+  margin: 0;
+  font-family: Poppins, sans-serif;
+  background: #f5fbfb;
+  overflow: hidden;
 }
 
-header{
-height:120px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:15px 40px;
-background:linear-gradient(90deg,var(--primary),var(--secondary));
-color:#fff;
+header {
+  height: 120px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  color: #fff;
 }
 
-header img{
-height:90px;
+header img {
+  height: 90px;
 }
 
-#clock{
-text-align:right;
+#clock {
+  text-align: right;
 }
 
-#day{
-font-size:34px;
-font-weight:700;
+#day {
+  font-size: 34px;
+  font-weight: 700;
 }
 
-#date{
-font-size:24px;
+#date {
+  font-size: 24px;
 }
 
-#time{
-font-size:42px;
-font-weight:700;
-color:#ffeb3b;
+#time {
+  font-size: 42px;
+  font-weight: 700;
+  color: #ffeb3b;
 }
 
-main{
-height:calc(100vh - 170px);
-padding:15px;
+main {
+  height: calc(100vh - 170px);
+  padding: 15px;
 }
 
 #slide,
-#videoContainer{
-width:100%;
-height:100%;
+#videoContainer {
+  width: 100%;
+  height: 100%;
 }
 
-#videoContainer{
-display:none;
-align-items:center;
-justify-content:center;
-background:#000;
+#videoContainer {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: #000;
 }
 
-#hospitalVideo{
-width:100%;
-height:100%;
-object-fit:contain;
+#hospitalVideo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
-.doctor-card{
-height:100%;
-display:flex;
-background:#fff;
-border-radius:20px;
-overflow:hidden;
-box-shadow:0 10px 25px rgba(0,0,0,.15);
+.doctor-card {
+  height: 100%;
+  display: flex;
+  background: #fff;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0,0,0,.15);
 }
 
-.doctor-photo{
-width:45%;
-object-fit:contain;
-background:#fff;
+.doctor-photo {
+  width: 45%;
+  object-fit: contain;
+  background: #fff;
 }
 
-.doctor-info{
-flex:1;
-padding:30px;
-display:flex;
-flex-direction:column;
-justify-content:center;
+.doctor-info {
+  flex: 1;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.doctor-info h3{
-font-size:48px;
-margin:0;
-color:var(--primary);
+.doctor-info h3 {
+  font-size: 48px;
+  margin: 0;
+  color: var(--primary);
 }
 
-.doctor-info p{
-font-size:28px;
-margin:10px 0 25px;
+.doctor-info p {
+  font-size: 28px;
+  margin: 10px 0 25px;
 }
 
-table{
-width:100%;
-border-collapse:collapse;
-font-size:26px;
-text-align:center;
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 26px;
+  text-align: center;
 }
 
-th{
-background:var(--primary);
-color:#fff;
-padding:15px;
+th {
+  background: var(--primary);
+  color: #fff;
+  padding: 15px;
 }
 
-td{
-padding:18px;
-border:1px solid #ddd;
+td {
+  padding: 18px;
+  border: 1px solid #ddd;
 }
 
-.today{
-background:#ffeb3b;
-font-weight:700;
+.today {
+  background: #ffeb3b;
+  font-weight: 700;
 }
 
-.marquee{
-position:fixed;
-bottom:0;
-left:0;
-width:100%;
-background:var(--primary);
-color:#fff;
-padding:10px 0;
-overflow:hidden;
+.marquee {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: var(--primary);
+  color: #fff;
+  padding: 10px 0;
+  overflow: hidden;
 }
 
-.marquee-content{
-white-space:nowrap;
-display:inline-block;
-font-size:24px;
-font-weight:600;
-animation:marquee 35s linear infinite;
+.marquee-content {
+  white-space: nowrap;
+  display: inline-block;
+  font-size: 24px;
+  font-weight: 600;
+  animation: marquee 35s linear infinite;
 }
 
-@keyframes marquee{
-from{
-transform:translateX(100%);
-}
-
-to{
-transform:translateX(-100%);
-}
+@keyframes marquee {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(-100%);
+  }
 }
 </style>
-
 </head>
 
 <body>
 
 <header>
-
-<img src="img/logorsud.png" alt="Logo RSUD Bedas Tegalluar">
-
-<div id="clock">
-
-<div id="day"></div>
-
-<div id="date"></div>
-
-<div id="time"></div>
-
-</div>
-
+  <img src="img/logorsud.png" alt="Logo RSUD Bedas Tegalluar" onerror="this.onerror=null; this.src='https://via.placeholder.com/200x90?text=Logo+RSUD';">
+  <div id="clock">
+    <div id="day"></div>
+    <div id="date"></div>
+    <div id="time"></div>
+  </div>
 </header>
 
 <main>
-
-<div id="slide"></div>
-
-<div id="videoContainer">
-
-<video
-id="hospitalVideo"
-playsinline
-preload="auto"> </video>
-
-</div>
-
+  <div id="slide"></div>
+  <div id="videoContainer">
+    <video
+      id="hospitalVideo"
+      playsinline
+      autoplay
+      muted
+      preload="auto"
+      style="width:100%;height:100%;object-fit:contain;">
+    </video>
+  </div>
 </main>
 
 <div class="marquee">
-
-<div class="marquee-content">
-
-Selamat Datang di RSUD Bedas Tegalluar • Gunakan Mobile JKN untuk pendaftaran • Isi Survei Kepuasan Masyarakat melalui QR Code • Dilarang Merokok di Area Rumah Sakit
-
-</div>
-
+  <div class="marquee-content">
+    Selamat Datang di RSUD Bedas Tegalluar • Gunakan Mobile JKN untuk pendaftaran • Isi Survei Kepuasan Masyarakat melalui QR Code • Dilarang Merokok di Area Rumah Sakit
+  </div>
 </div>
 
 <script>
-
 // ==================== DATA DOKTER ====================
-
 const doctors = [
-
-{
-img:"img/1.png",
-name:"dr. Mulfi Azmi, Sp.PD",
-specialist:"Spesialis Penyakit Dalam",
-
-jadwal:{
-
-Senin:"-",
-
-Selasa:"07:30-10:30",
-
-Rabu:"-",
-
-Kamis:"07:30-10:30",
-
-Jumat:"12:30-15:00",
-
-Sabtu:"-"
-
-}
-
-},
-
-{
-img:"img/2.png",
-name:"dr. Aditya Rifandi Zaenudin, Sp.OG",
-specialist:"Spesialis Kandungan & Kebidanan",
-
-jadwal:{
-
-Senin:"-",
-
-Selasa:"13:00-16:00",
-
-Rabu:"-",
-
-Kamis:"08:00-12:00",
-
-Jumat:"-",
-
-Sabtu:"10:00-13:00"
-
-}
-
-},
-
-{
-img:"img/3.png",
-name:"dr. Olga Vicetria Purba, Sp.A",
-specialist:"Spesialis Anak",
-
-jadwal:{
-
-Senin:"-",
-
-Selasa:"07:30-10:30",
-
-Rabu:"12:30-15:30",
-
-Kamis:"-",
-
-Jumat:"07:30-10:30",
-
-Sabtu:"-"
-
-}
-
-},
-
-{
-img:"img/5.png",
-name:"dr. R. Rezky Muhammad Nur Ismail, Sp.B",
-specialist:"Spesialis Bedah",
-
-jadwal:{
-
-Senin:"13:00-16:00",
-
-Selasa:"-",
-
-Rabu:"13:00-16:00",
-
-Kamis:"-",
-
-Jumat:"13:00-16:00",
-
-Sabtu:"-"
-
-}
-
-},
-
-{
-img:"img/4.png",
-name:"dr. Shiella Marlene, Sp.Rad",
-specialist:"Spesialis Radiologi",
-
-jadwal:{
-
-Senin:"12:00-14:00",
-
-Selasa:"-",
-
-Rabu:"12:00-14:00",
-
-Kamis:"12:00-14:00",
-
-Jumat:"-",
-
-Sabtu:"-"
-
-}
-
-},
-
-{
-img:"img/6.png",
-name:"drg. Za'im Isyraqizh Zhafari, Sp.KGA",
-specialist:"Spesialis Gigi Mulut dan Anak",
-
-jadwal:{
-
-Senin:"-",
-
-Selasa:"08:00-12:00",
-
-Rabu:"-",
-
-Kamis:"-",
-
-Jumat:"-",
-
-Sabtu:"08:00-11:00"
-
-}
-
-}
-
+  {
+    img: "img/1.png",
+    name: "dr. Mulfi Azmi, Sp.PD",
+    specialist: "Spesialis Penyakit Dalam",
+    jadwal: { Senin: "-", Selasa: "07:30-10:30", Rabu: "-", Kamis: "07:30-10:30", Jumat: "12:30-15:00", Sabtu: "-" }
+  },
+  {
+    img: "img/2.png",
+    name: "dr. Aditya Rifandi Zaenudin, Sp.OG",
+    specialist: "Spesialis Kandungan & Kebidanan",
+    jadwal: { Senin: "-", Selasa: "13:00-16:00", Rabu: "-", Kamis: "08:00-12:00", Jumat: "-", Sabtu: "10:00-13:00" }
+  },
+  {
+    img: "img/3.png",
+    name: "dr. Olga Vicetria Purba, Sp.A",
+    specialist: "Spesialis Anak",
+    jadwal: { Senin: "-", Selasa: "07:30-10:30", Rabu: "12:30-15:30", Kamis: "-", Jumat: "07:30-10:30", Sabtu: "-" }
+  },
+  {
+    img: "img/5.png",
+    name: "dr. R. Rezky Muhammad Nur Ismail, Sp.B",
+    specialist: "Spesialis Bedah",
+    jadwal: { Senin: "13:00-16:00", Selasa: "-", Rabu: "13:00-16:00", Kamis: "-", Jumat: "13:00-16:00", Sabtu: "-" }
+  },
+  {
+    img: "img/4.png",
+    name: "dr. Shiella Marlene, Sp.Rad",
+    specialist: "Spesialis Radiologi",
+    jadwal: { Senin: "12:00-14:00", Selasa: "-", Rabu: "12:00-14:00", Kamis: "12:00-14:00", Jumat: "-", Sabtu: "-" }
+  },
+  {
+    img: "img/6.png",
+    name: "drg. Za'im Isyraqizh Zhafari, Sp.KGA",
+    specialist: "Spesialis Gigi Mulut dan Anak",
+    jadwal: { Senin: "-", Selasa: "08:00-12:00", Rabu: "-", Kamis: "-", Jumat: "-", Sabtu: "08:00-12:00" }
+  }
 ];
-
 
 // ==================== PLAYLIST VIDEO ====================
-
-const videoPlaylist=[
-
-"video/1.mp4",
-
-"video/2.mp4",
-
-"video/3.mp4"
-
+const videoPlaylist = [
+  "video/11.mp4",
+  "video/22.mp4",
+  "video/33.mp4"
 ];
 
-
-// ==================== PLAYLIST GAMBAR ====================
-
-const promoPlaylist=[
-
-"img/R1.png",
-
-"img/R2.png",
-
-"img/R3.png"
-
+// ==================== PLAYLIST GAMBAR PROMO ====================
+const promoPlaylist = [
+  "img/R1.png",
+  "img/R2.png",
+  "img/R3.png"
 ];
 
+// ==================== DURASI SLIDE ====================
+const SLIDE_DURATION = 10000;
 
-// ==================== DURASI ====================
+// ==================== ELEMENT REF ====================
+const slideContainer = document.getElementById("slide");
+const videoContainer = document.getElementById("videoContainer");
+const videoElement = document.getElementById("hospitalVideo");
 
-const SLIDE_DURATION=10000;
+const elDay = document.getElementById("day");
+const elDate = document.getElementById("date");
+const elTime = document.getElementById("time");
 
-
-// ==================== ELEMENT ====================
-
-const slideContainer=document.getElementById("slide");
-
-const videoContainer=document.getElementById("videoContainer");
-
-const videoElement=document.getElementById("hospitalVideo");
-
-
-// ==================== JAM ELEMENT ====================
-
-const elDay=
-document.getElementById("day");
-
-const elDate=
-document.getElementById("date");
-
-const elTime=
-document.getElementById("time");
-
-
-// ==================== INDEX ====================
-
-let currentDoctorIndex=0;
-
-let currentVideoIndex=0;
-
-let currentPromoIndex=0;
-
+// ==================== INDEX TRACKER ====================
+let currentDoctorIndex = 0;
+let currentVideoIndex = 0;
+let currentPromoIndex = 0;
 let slideInterval;
+let isAudioUnlocked = false;
 
-
-// ==================== AUTO UNMUTE SYSTEM ====================
-
-function unlockAudio(){
-videoElement.muted=false;
-document.removeEventListener("click",unlockAudio);
-document.removeEventListener("keydown",unlockAudio);
-document.removeEventListener("touchstart",unlockAudio);
+// ==================== UNLOCK AUDIO ON FIRST CLICK ====================
+function unlockAudio() {
+  isAudioUnlocked = true;
+  videoElement.muted = false;
+  document.removeEventListener("click", unlockAudio);
+  document.removeEventListener("touchstart", unlockAudio);
 }
-document.addEventListener("click",unlockAudio);
-document.addEventListener("keydown",unlockAudio);
-document.addEventListener("touchstart",unlockAudio);
+document.addEventListener("click", unlockAudio);
+document.addEventListener("touchstart", unlockAudio);
 
+// ==================== ALUR 1: SLIDE DOKTER ====================
+function showDoctorsLoop() {
+  clearInterval(slideInterval);
+  videoElement.pause();
+  videoContainer.style.display = "none";
+  slideContainer.style.display = "block";
 
-// ==================== TAMPIL DOKTER ====================
+  renderDoctorCard();
 
-function showDoctorsLoop(){
-
-clearInterval(slideInterval);
-
-videoElement.pause();
-
-videoContainer.style.display="none";
-
-slideContainer.style.display="block";
-
-renderDoctorCard();
-
-slideInterval=setInterval(()=>{
-
-currentDoctorIndex++;
-
-if(currentDoctorIndex>=doctors.length){
-
-clearInterval(slideInterval);
-
-currentDoctorIndex=0;
-
-startVideoSequence();
-
+  slideInterval = setInterval(() => {
+    currentDoctorIndex++;
+    if (currentDoctorIndex >= doctors.length) {
+      clearInterval(slideInterval);
+      currentDoctorIndex = 0;
+      startVideoSequence();
+    } else {
+      renderDoctorCard();
+    }
+  }, SLIDE_DURATION);
 }
 
-else{
+function renderDoctorCard() {
+  const d = doctors[currentDoctorIndex];
+  const days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+  const today = days[new Date().getDay()];
 
-renderDoctorCard();
-
+  slideContainer.innerHTML = `
+    <div class="doctor-card">
+      <img class="doctor-photo" src="${d.img}" alt="${d.name}" onerror="this.onerror=null; this.src='https://via.placeholder.com/400x500?text=Foto+Dokter+Tidak+Ditemukan';">
+      <div class="doctor-info">
+        <h3>${d.name}</h3>
+        <p>${d.specialist}</p>
+        <table>
+          <tr><th>Sen</th><th>Sel</th><th>Rab</th><th>Kam</th><th>Jum</th><th>Sab</th></tr>
+          <tr>
+            <td class="${today === "Senin" ? "today" : ""}">${d.jadwal.Senin}</td>
+            <td class="${today === "Selasa" ? "today" : ""}">${d.jadwal.Selasa}</td>
+            <td class="${today === "Rabu" ? "today" : ""}">${d.jadwal.Rabu}</td>
+            <td class="${today === "Kamis" ? "today" : ""}">${d.jadwal.Kamis}</td>
+            <td class="${today === "Jumat" ? "today" : ""}">${d.jadwal.Jumat}</td>
+            <td class="${today === "Sabtu" ? "today" : ""}">${d.jadwal.Sabtu}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  `;
 }
 
-},SLIDE_DURATION);
+// ==================== ALUR 2: PLAYLIST VIDEO ====================
+function startVideoSequence() {
+  clearInterval(slideInterval);
 
+  if (videoPlaylist.length === 0) {
+    startPromoSequence();
+    return;
+  }
+
+  slideContainer.style.display = "none";
+  videoContainer.style.display = "flex";
+  currentVideoIndex = 0;
+  playVideo();
 }
 
+function playVideo() {
+  if (currentVideoIndex >= videoPlaylist.length) {
+    startPromoSequence();
+    return;
+  }
 
-// ==================== CARD DOKTER ====================
+  const file = videoPlaylist[currentVideoIndex];
+  
+  // Setel ulang elemen video
+  videoElement.pause();
+  videoElement.src = file;
+  
+  // Muted dijamin aktif agar browser PASTI mengizinkan autoplay
+  videoElement.muted = !isAudioUnlocked;
 
-function renderDoctorCard(){
+  const playPromise = videoElement.play();
 
-const d=doctors[currentDoctorIndex];
-
-const days=[
-
-"Minggu",
-
-"Senin",
-
-"Selasa",
-
-"Rabu",
-
-"Kamis",
-
-"Jumat",
-
-"Sabtu"
-
-];
-
-const today=days[new Date().getDay()];
-
-slideContainer.innerHTML=`
-
-<div class="doctor-card">
-
-<img
-
-class="doctor-photo"
-
-src="${d.img}"
-
-alt="${d.name}"
-
->
-
-<div class="doctor-info">
-
-<h3>
-
-${d.name}
-
-</h3>
-
-<p>
-
-${d.specialist}
-
-</p>
-
-<table>
-
-<tr>
-
-<th>Sen</th>
-
-<th>Sel</th>
-
-<th>Rab</th>
-
-<th>Kam</th>
-
-<th>Jum</th>
-
-<th>Sab</th>
-
-</tr>
-
-<tr>
-
-<td class="${today==="Senin"?"today":""}">
-
-${d.jadwal.Senin}
-
-</td>
-
-<td class="${today==="Selasa"?"today":""}">
-
-${d.jadwal.Selasa}
-
-</td>
-
-<td class="${today==="Rabu"?"today":""}">
-
-${d.jadwal.Rabu}
-
-</td>
-
-<td class="${today==="Kamis"?"today":""}">
-
-${d.jadwal.Kamis}
-
-</td>
-
-<td class="${today==="Jumat"?"today":""}">
-
-${d.jadwal.Jumat}
-
-</td>
-
-<td class="${today==="Sabtu"?"today":""}">
-
-${d.jadwal.Sabtu}
-
-</td>
-
-</tr>
-
-</table>
-
-</div>
-
-</div>
-
-`;
-
+  if (playPromise !== undefined) {
+    playPromise.catch((err) => {
+      console.warn("Video gagal diputar, otomatis lanjut ke video berikutnya:", file, err);
+      handleVideoEnded();
+    });
+  }
 }
 
-
-// ==================== MULAI VIDEO ====================
-
-function startVideoSequence(){
-
-clearInterval(slideInterval);
-
-if(videoPlaylist.length===0){
-
-startPromoSequence();
-
-return;
-
+function handleVideoEnded() {
+  currentVideoIndex++;
+  if (currentVideoIndex < videoPlaylist.length) {
+    playVideo();
+  } else {
+    currentVideoIndex = 0;
+    startPromoSequence();
+  }
 }
 
-slideContainer.style.display="none";
+videoElement.addEventListener("ended", handleVideoEnded);
+videoElement.addEventListener("error", handleVideoEnded);
 
-videoContainer.style.display="flex";
+// ==================== ALUR 3: SLIDE PROMO / GAMBAR ====================
+function startPromoSequence() {
+  clearInterval(slideInterval);
+  videoElement.pause();
+  videoContainer.style.display = "none";
+  slideContainer.style.display = "block";
 
-currentVideoIndex=0;
+  if (promoPlaylist.length === 0) {
+    showDoctorsLoop();
+    return;
+  }
 
-playVideo();
+  currentPromoIndex = 0;
+  renderPromoCard();
 
+  slideInterval = setInterval(() => {
+    currentPromoIndex++;
+    if (currentPromoIndex >= promoPlaylist.length) {
+      clearInterval(slideInterval);
+      showDoctorsLoop();
+    } else {
+      renderPromoCard();
+    }
+  }, SLIDE_DURATION);
 }
 
-
-// ==================== PUTAR VIDEO ====================
-
-function playVideo(){
-
-videoElement.pause();
-
-videoElement.src=videoPlaylist[currentVideoIndex];
-
-videoElement.currentTime=0;
-
-videoElement.muted=false;
-
-videoElement.load();
-
-videoElement.play()
-
-.then(()=>{
-
-console.log(
-
-"Video diputar dengan suara:",
-
-videoPlaylist[currentVideoIndex]
-
-);
-
-})
-
-.catch(error=>{
-
-console.warn(
-
-"Autoplay dengan suara diblokir browser. Memutar muted terlebih dahulu lalu membuka suara:",
-
-error
-
-);
-
-videoElement.muted=true;
-videoElement.play().then(()=>{
-videoElement.muted=false;
-}).catch(e=>{
-setTimeout(
-handleVideoEnded,
-1000
-);
-});
-
-});
-
+function renderPromoCard() {
+  slideContainer.innerHTML = `
+    <div style="width:100%; height:100%; display:flex; justify-content:center; align-items:center; background:#fff; border-radius:20px; overflow:hidden; box-shadow:0 10px 25px rgba(0,0,0,.15);">
+      <img src="${promoPlaylist[currentPromoIndex]}" style="width:100%; height:100%; object-fit:contain;" alt="Informasi RSUD" onerror="this.onerror=null; this.src='https://via.placeholder.com/800x500?text=Gambar+Promo+Tidak+Ditemukan';">
+    </div>
+  `;
 }
 
+// ==================== JAM DAN TANGGAL ====================
+function updateClock() {
+  const d = new Date();
+  const hari = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+  const bulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
 
-// ==================== VIDEO SELESAI ====================
-
-function handleVideoEnded(){
-
-currentVideoIndex++;
-
-if(
-
-currentVideoIndex
-
-<
-
-videoPlaylist.length
-
-){
-
-playVideo();
-
+  elDay.textContent = hari[d.getDay()];
+  elDate.textContent = d.getDate() + " " + bulan[d.getMonth()] + " " + d.getFullYear();
+  elTime.textContent = d.toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
 }
 
-else{
-
-startPromoSequence();
-
-}
-
-}
-
-videoElement.addEventListener(
-
-"ended",
-
-handleVideoEnded
-
-);
-
-
-// ==================== TAMPIL GAMBAR ====================
-
-function startPromoSequence(){
-
-clearInterval(slideInterval);
-
-videoElement.pause();
-
-videoContainer.style.display="none";
-
-slideContainer.style.display="block";
-
-if(
-
-promoPlaylist.length===0
-
-){
-
-showDoctorsLoop();
-
-return;
-
-}
-
-currentPromoIndex=0;
-
-renderPromoCard();
-
-slideInterval=setInterval(()=>{
-
-currentPromoIndex++;
-
-if(
-
-currentPromoIndex
-
->=
-
-promoPlaylist.length
-
-){
-
-clearInterval(slideInterval);
-
-showDoctorsLoop();
-
-}
-
-else{
-
-renderPromoCard();
-
-}
-
-},SLIDE_DURATION);
-
-}
-
-
-// ==================== CARD GAMBAR ====================
-
-function renderPromoCard(){
-
-slideContainer.innerHTML=`
-
-<div
-
-style="
-
-width:100%;
-
-height:100%;
-
-display:flex;
-
-justify-content:center;
-
-align-items:center;
-
-background:#fff;
-
-border-radius:20px;
-
-overflow:hidden;
-
-box-shadow:
-
-0 10px 25px
-
-rgba(0,0,0,.15);
-
-"
-
->
-
-<img
-
-src="${promoPlaylist[currentPromoIndex]}"
-
-style="
-
-width:100%;
-
-height:100%;
-
-object-fit:contain;
-
-"
-
-alt="Informasi RSUD"
-
->
-
-</div>
-
-`;
-
-}
-
-
-// ==================== JAM ====================
-
-function updateClock(){
-
-const d=new Date();
-
-const hari=[
-
-"Minggu",
-
-"Senin",
-
-"Selasa",
-
-"Rabu",
-
-"Kamis",
-
-"Jumat",
-
-"Sabtu"
-
-];
-
-const bulan=[
-
-"Januari",
-
-"Februari",
-
-"Maret",
-
-"April",
-
-"Mei",
-
-"Juni",
-
-"Juli",
-
-"Agustus",
-
-"September",
-
-"Oktober",
-
-"November",
-
-"Desember"
-
-];
-
-elDay.textContent=
-
-hari[d.getDay()];
-
-elDate.textContent=
-
-d.getDate()
-
-+
-
-" "
-
-+
-
-bulan[d.getMonth()]
-
-+
-
-" "
-
-+
-
-d.getFullYear();
-
-elTime.textContent=
-
-d.toLocaleTimeString(
-
-"id-ID",
-
-{
-
-hour:"2-digit",
-
-minute:"2-digit",
-
-second:"2-digit"
-
-}
-
-);
-
-}
-
-
-// ==================== MULAI ====================
-
+// ==================== START ====================
 updateClock();
-
-setInterval(
-
-updateClock,
-
-1000
-
-);
-
+setInterval(updateClock, 1000);
 showDoctorsLoop();
-
 </script>
 
 </body>
