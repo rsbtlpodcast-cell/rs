@@ -192,6 +192,11 @@ td {
   </div>
 </main>
 
+<!-- ELEMEN AUDIO DOKTER (Sesuaikan lokasi/nama file mp3 Anda) -->
+<audio id="doctorMusic" loop preload="auto">
+  <source src="audio/1.mp3" type="audio/mpeg">
+</audio>
+
 <div class="marquee">
   <div class="marquee-content">
     Selamat Datang di RSUD Bedas Tegalluar • Gunakan Mobile JKN untuk pendaftaran • Isi Survei Kepuasan Masyarakat melalui QR Code • Dilarang Merokok di Area Rumah Sakit
@@ -261,6 +266,7 @@ const SLIDE_DURATION = 10000;
 const slideContainer = document.getElementById("slide");
 const videoContainer = document.getElementById("videoContainer");
 const videoElement = document.getElementById("hospitalVideo");
+const doctorMusic = document.getElementById("doctorMusic");
 
 const elDay = document.getElementById("day");
 const elDate = document.getElementById("date");
@@ -277,6 +283,12 @@ let isAudioUnlocked = false;
 function unlockAudio() {
   isAudioUnlocked = true;
   videoElement.muted = false;
+
+  // Izinkan musik dokter diputar jika saat ini ada di slide dokter
+  if (doctorMusic && slideContainer.style.display !== "none") {
+    doctorMusic.play().catch(err => console.warn("Audio play error:", err));
+  }
+
   document.removeEventListener("click", unlockAudio);
   document.removeEventListener("touchstart", unlockAudio);
 }
@@ -289,6 +301,12 @@ function showDoctorsLoop() {
   videoElement.pause();
   videoContainer.style.display = "none";
   slideContainer.style.display = "block";
+
+  // Putar Musik Dokter
+  if (doctorMusic && isAudioUnlocked) {
+    doctorMusic.currentTime = 0;
+    doctorMusic.play().catch(err => console.warn("Audio play error:", err));
+  }
 
   renderDoctorCard();
 
@@ -334,6 +352,11 @@ function renderDoctorCard() {
 // ==================== ALUR 2: PLAYLIST VIDEO ====================
 function startVideoSequence() {
   clearInterval(slideInterval);
+
+  // Hentikan Musik Dokter saat masuk alur video
+  if (doctorMusic) {
+    doctorMusic.pause();
+  }
 
   if (videoPlaylist.length === 0) {
     startPromoSequence();
@@ -388,6 +411,12 @@ videoElement.addEventListener("error", handleVideoEnded);
 function startPromoSequence() {
   clearInterval(slideInterval);
   videoElement.pause();
+
+  // Pastikan musik dokter mati saat alur promo
+  if (doctorMusic) {
+    doctorMusic.pause();
+  }
+
   videoContainer.style.display = "none";
   slideContainer.style.display = "block";
 
