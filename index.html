@@ -18,7 +18,7 @@
 
 body {
   margin: 0;
-  font-family: Poppins, sans-serif;
+  font-family: 'Poppins', sans-serif;
   background: #f5fbfb;
   overflow: hidden;
 }
@@ -164,6 +164,23 @@ td {
     transform: translateX(-100%);
   }
 }
+
+/* STYLE TAMPILAN OVERLAY INDONESIA RAYA */
+#indonesiaRayaOverlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #000;
+  color: #fff;
+  z-index: 9999;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
 </style>
 </head>
 
@@ -192,10 +209,22 @@ td {
   </div>
 </main>
 
-<!-- ELEMEN AUDIO DOKTER (Sesuaikan lokasi/nama file mp3 Anda) -->
+<!-- AUDIO DOKTER -->
 <audio id="doctorMusic" loop preload="auto">
   <source src="audio/1.mp3" type="audio/mpeg">
 </audio>
+
+<!-- AUDIO INDONESIA RAYA -->
+<audio id="indonesiaRayaAudio" preload="auto">
+  <source src="audio/indonesia_raya.mp3" type="audio/mpeg">
+</audio>
+
+<!-- OVERLAY KHUSUS INDONESIA RAYA -->
+<div id="indonesiaRayaOverlay">
+  <img src="img/logorsud.png" style="height: 120px; margin-bottom: 20px;" alt="Logo RSUD" onerror="this.onerror=null; this.src='https://via.placeholder.com/200x90?text=Logo+RSUD';">
+  <h1 style="font-size: 50px; margin: 10px 0; color: #ffeb3b;">MARI MENDENGARKAN LAGU INDONESIA RAYA</h1>
+  <p style="font-size: 28px; margin-top: 10px;">Hormat dan Berdiri Tegak Saat Lagu Berkumandang</p>
+</div>
 
 <div class="marquee">
   <div class="marquee-content">
@@ -252,7 +281,7 @@ const videoPlaylist = [
   "video/33.mp4"
 ];
 
-// ==================== PLAYLIST GAMBAR PROMO ====================
+// ==================== PLAYLIST GAMBAR ALUR ====================
 const promoPlaylist = [
   "img/R1.png",
   "img/R2.png",
@@ -268,24 +297,27 @@ const videoContainer = document.getElementById("videoContainer");
 const videoElement = document.getElementById("hospitalVideo");
 const doctorMusic = document.getElementById("doctorMusic");
 
+const indonesiaRayaAudio = document.getElementById("indonesiaRayaAudio");
+const indonesiaRayaOverlay = document.getElementById("indonesiaRayaOverlay");
+
 const elDay = document.getElementById("day");
 const elDate = document.getElementById("date");
 const elTime = document.getElementById("time");
 
-// ==================== INDEX TRACKER ====================
+// ==================== INDEX TRACKER & FLAGS ====================
 let currentDoctorIndex = 0;
 let currentVideoIndex = 0;
 let currentPromoIndex = 0;
 let slideInterval;
 let isAudioUnlocked = false;
+let isPlayingNationalAnthem = false;
 
 // ==================== UNLOCK AUDIO ON FIRST CLICK ====================
 function unlockAudio() {
   isAudioUnlocked = true;
   videoElement.muted = false;
 
-  // Izinkan musik dokter diputar jika saat ini ada di slide dokter
-  if (doctorMusic && slideContainer.style.display !== "none") {
+  if (doctorMusic && slideContainer.style.display !== "none" && !isPlayingNationalAnthem) {
     doctorMusic.play().catch(err => console.warn("Audio play error:", err));
   }
 
@@ -295,14 +327,45 @@ function unlockAudio() {
 document.addEventListener("click", unlockAudio);
 document.addEventListener("touchstart", unlockAudio);
 
+// ==================== LOGIKA INDONESIA RAYA ====================
+function playIndonesiaRaya() {
+  if (isPlayingNationalAnthem) return;
+  isPlayingNationalAnthem = true;
+
+  // 1. Hentikan interval dan media yang sedang berputar
+  clearInterval(slideInterval);
+  if (doctorMusic) doctorMusic.pause();
+  videoElement.pause();
+
+  // 2. Tampilkan Layar Indonesia Raya
+  indonesiaRayaOverlay.style.display = "flex";
+
+  // 3. Putar audio lagu Indonesia Raya
+  indonesiaRayaAudio.currentTime = 0;
+  indonesiaRayaAudio.play().catch(err => console.warn("Gagal memutar lagu Indonesia Raya:", err));
+}
+
+function restoreAfterAnthem() {
+  // Sembunyikan Layar Indonesia Raya & kembalikan status
+  indonesiaRayaOverlay.style.display = "none";
+  isPlayingNationalAnthem = false;
+
+  // Lanjutkan kembali alur tampilan normal
+  showDoctorsLoop();
+}
+
+indonesiaRayaAudio.addEventListener("ended", restoreAfterAnthem);
+indonesiaRayaAudio.addEventListener("error", restoreAfterAnthem);
+
 // ==================== ALUR 1: SLIDE DOKTER ====================
 function showDoctorsLoop() {
+  if (isPlayingNationalAnthem) return;
+
   clearInterval(slideInterval);
   videoElement.pause();
   videoContainer.style.display = "none";
   slideContainer.style.display = "block";
 
-  // Putar Musik Dokter
   if (doctorMusic && isAudioUnlocked) {
     doctorMusic.currentTime = 0;
     doctorMusic.play().catch(err => console.warn("Audio play error:", err));
@@ -351,9 +414,10 @@ function renderDoctorCard() {
 
 // ==================== ALUR 2: PLAYLIST VIDEO ====================
 function startVideoSequence() {
+  if (isPlayingNationalAnthem) return;
+
   clearInterval(slideInterval);
 
-  // Hentikan Musik Dokter saat masuk alur video
   if (doctorMusic) {
     doctorMusic.pause();
   }
@@ -370,6 +434,8 @@ function startVideoSequence() {
 }
 
 function playVideo() {
+  if (isPlayingNationalAnthem) return;
+
   if (currentVideoIndex >= videoPlaylist.length) {
     startPromoSequence();
     return;
@@ -377,11 +443,8 @@ function playVideo() {
 
   const file = videoPlaylist[currentVideoIndex];
   
-  // Setel ulang elemen video
   videoElement.pause();
   videoElement.src = file;
-  
-  // Muted dijamin aktif agar browser PASTI mengizinkan autoplay
   videoElement.muted = !isAudioUnlocked;
 
   const playPromise = videoElement.play();
@@ -395,6 +458,8 @@ function playVideo() {
 }
 
 function handleVideoEnded() {
+  if (isPlayingNationalAnthem) return;
+
   currentVideoIndex++;
   if (currentVideoIndex < videoPlaylist.length) {
     playVideo();
@@ -409,10 +474,11 @@ videoElement.addEventListener("error", handleVideoEnded);
 
 // ==================== ALUR 3: SLIDE PROMO / GAMBAR ====================
 function startPromoSequence() {
+  if (isPlayingNationalAnthem) return;
+
   clearInterval(slideInterval);
   videoElement.pause();
 
-  // Pastikan musik dokter mati saat alur promo
   if (doctorMusic) {
     doctorMusic.pause();
   }
@@ -456,6 +522,11 @@ function updateClock() {
   elDay.textContent = hari[d.getDay()];
   elDate.textContent = d.getDate() + " " + bulan[d.getMonth()] + " " + d.getFullYear();
   elTime.textContent = d.toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+
+  // PEMICU OTOMATIS: Pukul 10:00:00 Siang
+  if (d.getHours() === 10 && d.getMinutes() === 00 && d.getSeconds() === 0) {
+    playIndonesiaRaya();
+  }
 }
 
 // ==================== START ====================
