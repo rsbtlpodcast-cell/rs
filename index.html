@@ -286,7 +286,7 @@ const promoPlaylist = [
   "img/R1.png",
   "img/R2.png",
   "img/R3.png",
-  "img/R4.jpg
+  "img/R4.jpg"
 ];
 
 // ==================== DURASI SLIDE ====================
@@ -333,25 +333,19 @@ function playIndonesiaRaya() {
   if (isPlayingNationalAnthem) return;
   isPlayingNationalAnthem = true;
 
-  // 1. Hentikan interval dan media yang sedang berputar
   clearInterval(slideInterval);
   if (doctorMusic) doctorMusic.pause();
   videoElement.pause();
 
-  // 2. Tampilkan Layar Indonesia Raya
   indonesiaRayaOverlay.style.display = "flex";
 
-  // 3. Putar audio lagu Indonesia Raya
   indonesiaRayaAudio.currentTime = 0;
   indonesiaRayaAudio.play().catch(err => console.warn("Gagal memutar lagu Indonesia Raya:", err));
 }
 
 function restoreAfterAnthem() {
-  // Sembunyikan Layar Indonesia Raya & kembalikan status
   indonesiaRayaOverlay.style.display = "none";
   isPlayingNationalAnthem = false;
-
-  // Lanjutkan kembali alur tampilan normal
   showDoctorsLoop();
 }
 
@@ -524,8 +518,7 @@ function updateClock() {
   elDate.textContent = d.getDate() + " " + bulan[d.getMonth()] + " " + d.getFullYear();
   elTime.textContent = d.toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
 
-  // PEMICU OTOMATIS: Pukul 10:00:00 Siang
-  if (d.getHours() === 10 && d.getMinutes() === 00 && d.getSeconds() === 0) {
+  if (d.getHours() === 10 && d.getMinutes() === 0 && d.getSeconds() === 0) {
     playIndonesiaRaya();
   }
 }
